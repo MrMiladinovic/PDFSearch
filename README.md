@@ -39,7 +39,7 @@ You can download a precompiled release of the application from the [Releases](ht
 1. **Clone the Repository**:
     ```bash
     git clone https://github.com/MrMiladinovic/PDFSearch.git
-    cd pdf-keyword-search
+    cd PDFSearch
     ```
 
 2. **Install Dependencies**:
