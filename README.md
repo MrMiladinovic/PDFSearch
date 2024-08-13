@@ -1,3 +1,7 @@
+Certainly! Here’s an updated version of the README with a section explaining how users can use a precompiled release instead of compiling from source:
+
+---
+
 # PDF Keyword Search
 
 ## Overview
@@ -20,6 +24,18 @@
 - Tkinter (usually included with Python standard library)
 
 ## Installation
+
+### Option 1: Using Precompiled Release
+
+You can download a precompiled release of the application from the [Releases](https://github.com/yourusername/pdf-keyword-search/releases) page. This allows you to use the application without having to compile it from source.
+
+1. **Download the Release**:
+   Go to the [Releases](https://github.com/yourusername/pdf-keyword-search/releases) page and download the latest release suitable for your operating system.
+
+2. **Extract and Run**:
+   Extract the downloaded file and follow the instructions included in the release notes to run the application.
+
+### Option 2: Compile from Source
 
 1. **Clone the Repository**:
     ```bash
