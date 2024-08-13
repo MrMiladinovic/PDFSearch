@@ -26,10 +26,10 @@
 
 ### Option 1: Using Precompiled Release
 
-You can download a precompiled release of the application from the [Releases](https://github.com/yourusername/pdf-keyword-search/releases) page. This allows you to use the application without having to compile it from source.
+You can download a precompiled release of the application from the [Releases](https://github.com/MrMiladinovic/PDFSearch/releases) page. This allows you to use the application without having to compile it from source.
 
 1. **Download the Release**:
-   Go to the [Releases](https://github.com/yourusername/pdf-keyword-search/releases) page and download the latest release suitable for your operating system.
+   Go to the [Releases](https://github.com/MrMiladinovic/PDFSearch/releases) page and download the latest release suitable for your operating system.
 
 2. **Extract and Run**:
    Extract the downloaded file and follow the instructions included in the release notes to run the application.
@@ -38,7 +38,7 @@ You can download a precompiled release of the application from the [Releases](ht
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/yourusername/pdf-keyword-search.git
+    git clone https://github.com/MrMiladinovic/pdf-keyword-search.git
     cd pdf-keyword-search
     ```
 
@@ -82,9 +82,6 @@ Contributions are welcome! If you have suggestions, improvements, or fixes, plea
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
-
-For any questions or further information, please contact [your-email@example.com](mailto:your-email@example.com).
 
 ## Acknowledgments
 
