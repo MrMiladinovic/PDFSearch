@@ -1,13 +1,87 @@
 import os
+import json
 import PyPDF2
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter import ttk
 
+# Constants for theme
+THEME_FILE = "theme.json"
+
+def load_theme():
+    """Load the saved theme from the configuration file."""
+    if os.path.exists(THEME_FILE):
+        with open(THEME_FILE, 'r') as file:
+            return json.load(file).get('theme', 'light')
+    return 'light'
+
+def save_theme(theme):
+    """Save the current theme to the configuration file."""
+    with open(THEME_FILE, 'w') as file:
+        json.dump({'theme': theme}, file)
+
+def apply_theme(theme):
+    """Apply the given theme to the application."""
+    if theme == 'dark':
+        bg_color = '#2E2E2E'
+        fg_color = '#FFFFFF'
+        highlight_color = '#424242'
+        progress_color = '#32CD32'
+        tree_bg_color = '#2E2E2E'
+        scrollbar_bg_color = '#2E2E2E'
+        scrollbar_fg_color = '#FFFFFF'
+        row_bg_even = '#2E2E2E'
+        row_bg_odd = '#2E2E2E'
+    else:
+        bg_color = '#FFFFFF'
+        fg_color = '#000000'
+        highlight_color = '#D9D9D9'
+        progress_color = '#32CD32'
+        tree_bg_color = '#FFFFFF'
+        scrollbar_bg_color = '#FFFFFF'
+        scrollbar_fg_color = '#000000'
+        row_bg_even = '#FFFFFF'
+        row_bg_odd = '#F0F0F0'
+    
+    # Apply theme to root window
+    root.configure(bg=bg_color)
+    
+    # Apply theme to tk widgets
+    for widget in root.winfo_children():
+        if isinstance(widget, (tk.Label, tk.Entry, tk.Button, tk.Checkbutton)):
+            widget.configure(bg=bg_color, fg=fg_color)
+        elif isinstance(widget, tk.Frame):
+            widget.configure(bg=bg_color)
+    
+    # Apply theme to ttk widgets
+    style.configure('TButton', background=bg_color, foreground=fg_color)
+    style.configure('TCheckbutton', background=bg_color, foreground=fg_color)
+    
+    # Treeview styling
+    style.configure('Treeview', background=tree_bg_color, foreground=fg_color, fieldbackground=tree_bg_color)
+    style.configure('Treeview.Heading', background=bg_color,fieldbackground=bg_color, foreground=fg_color)
+    #style.map("Treeview.Heading",background=[('active', '#555555'), ('!active', '#333333')])
+    
+    # Configure Treeview row colors
+    tree.tag_configure('evenrow', background=row_bg_even)
+    tree.tag_configure('oddrow', background=row_bg_odd)
+    
+    # Apply theme to progress bar
+    style.configure('TProgressbar', troughcolor=highlight_color, background=progress_color)
+
+    # Apply theme to scrollbars
+    style.configure('Vertical.TScrollbar', background=scrollbar_bg_color, troughcolor=highlight_color, arrowcolor=scrollbar_fg_color)
+    style.configure('Horizontal.TScrollbar', background=scrollbar_bg_color, troughcolor=highlight_color, arrowcolor=scrollbar_fg_color)
+
+def toggle_theme():
+    """Toggle between light and dark themes."""
+    current_theme = load_theme()
+    new_theme = 'dark' if current_theme == 'light' else 'light'
+    apply_theme(new_theme)
+    save_theme(new_theme)
+
 def search_keyword_in_pdfs(directory, keyword, case_sensitive):
     results = []
-
-    # Count the total number of PDF files
     total_files = sum([len(files) for r, d, files in os.walk(directory) if any(f.endswith('.pdf') for f in files)])
     current_file = 0
 
@@ -66,14 +140,12 @@ def search():
         messagebox.showerror("Error", "Please enter a keyword to search.")
         return
 
-    # Clear previous results
     for i in tree.get_children():
         tree.delete(i)
     
     progress_var.set(0)
     progress_bar.update()
 
-    # Run search
     results = search_keyword_in_pdfs(directory, keyword, case_sensitive)
 
     if results:
@@ -94,39 +166,33 @@ def copy_path():
 root = tk.Tk()
 root.title("PDF Keyword Search")
 
-# Set the window icon
-root.iconbitmap("icon.ico")  # Use your .ico file here
+# Define styles
 
-# Make the UI scalable
-root.columnconfigure(1, weight=1)
-root.rowconfigure(3, weight=1)
 
-# Variables
+style = ttk.Style(root)
+style.theme_use("clam")
+#style.configure("Treeview.Heading", background="black", foreground="white")
+# Create widgets
+tk.Label(root, text="Select PDF Directory:").grid(row=0, column=0, padx=10, pady=10, sticky="w")
 folder_path = tk.StringVar()
-progress_var = tk.DoubleVar()
-case_sensitive_var = tk.BooleanVar()
-
-# Folder selection
-tk.Label(root, text="Select PDF Directory:").grid(row=0, column=0, padx=10, pady=10)
 tk.Entry(root, textvariable=folder_path, width=50).grid(row=0, column=1, padx=10, pady=10, sticky="ew")
-tk.Button(root, text="Browse", command=browse_directory).grid(row=0, column=2, padx=10, pady=10)
+tk.Button(root, text="Browse", command=browse_directory).grid(row=0, column=2, padx=10, pady=10, sticky="w")
 
-# Keyword entry
-tk.Label(root, text="Keyword:").grid(row=1, column=0, padx=10, pady=10)
+tk.Label(root, text="Keyword:").grid(row=1, column=0, padx=10, pady=10, sticky="w")
 keyword_entry = tk.Entry(root, width=50)
 keyword_entry.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
 
-# Case sensitive checkbox
-tk.Checkbutton(root, text="Case Sensitive", variable=case_sensitive_var).grid(row=1, column=2, padx=10, pady=10)
+case_sensitive_var = tk.BooleanVar()
+tk.Checkbutton(root, text="Case Sensitive", variable=case_sensitive_var).grid(row=1, column=2, padx=10, pady=10, sticky="w")
 
-# Search button
-tk.Button(root, text="Search", command=search).grid(row=2, column=2, padx=10, pady=10)
+tk.Button(root, text="Search", command=search).grid(row=2, column=2, padx=10, pady=10, sticky="w")
+tk.Button(root, text="Toggle Dark Theme", command=toggle_theme).grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
-# Progress bar
+progress_var = tk.DoubleVar()
 progress_bar = ttk.Progressbar(root, variable=progress_var, maximum=100, length=400)
 progress_bar.grid(row=3, column=0, columnspan=3, padx=10, pady=10, sticky="ew")
 
-# Results table
+# Create the Treeview and scrollbars
 tree = ttk.Treeview(root, columns=("File Name", "File Path", "Pages"), show="headings")
 tree.heading("File Name", text="File Name")
 tree.heading("File Path", text="File Path")
@@ -136,16 +202,13 @@ tree.column("File Name", width=200, anchor="w")
 tree.column("File Path", width=400, anchor="w")
 tree.column("Pages", width=100, anchor="center")
 
-# Add vertical scrollbar to the table
-vsb = ttk.Scrollbar(root, orient="vertical", command=tree.yview)
+# Add scrollbars
+vsb = ttk.Scrollbar(root, orient="vertical", style='Vertical.TScrollbar', command=tree.yview)
 vsb.grid(row=4, column=3, sticky="ns")
-
 tree.configure(yscrollcommand=vsb.set)
 
-# Add horizontal scrollbar to the table
-hsb = ttk.Scrollbar(root, orient="horizontal", command=tree.xview)
+hsb = ttk.Scrollbar(root, orient="horizontal", style='Horizontal.TScrollbar', command=tree.xview)
 hsb.grid(row=5, column=0, columnspan=3, sticky="ew")
-
 tree.configure(xscrollcommand=hsb.set)
 
 tree.grid(row=4, column=0, columnspan=3, padx=10, pady=10, sticky="nsew")
@@ -159,5 +222,15 @@ def show_context_menu(event):
 
 tree.bind("<Button-3>", show_context_menu)
 
-# Start the application
+# Load and apply the saved theme
+current_theme = load_theme()
+apply_theme(current_theme)
+
+# Configure grid scaling
+root.columnconfigure(0, weight=1)
+root.columnconfigure(1, weight=3)
+root.columnconfigure(2, weight=1)
+root.rowconfigure(4, weight=1)
+root.rowconfigure(5, weight=0)  # Ensure the last row has no extra space
+
 root.mainloop()
