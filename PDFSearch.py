@@ -15,24 +15,30 @@ def search_keyword_in_pdfs(directory, keyword, case_sensitive):
         for filename in files:
             if filename.endswith('.pdf'):
                 file_path = os.path.join(root, filename)
-                with open(file_path, 'rb') as pdf_file:
-                    pdf_reader = PyPDF2.PdfReader(pdf_file)
-                    num_pages = len(pdf_reader.pages)
-                    pages_found = []
+                try:
+                    with open(file_path, 'rb') as pdf_file:
+                        pdf_reader = PyPDF2.PdfReader(pdf_file)
+                        num_pages = len(pdf_reader.pages)
+                        pages_found = []
 
-                    for page_num in range(num_pages):
-                        page = pdf_reader.pages[page_num]
-                        text = page.extract_text()
+                        for page_num in range(num_pages):
+                            page = pdf_reader.pages[page_num]
+                            text = page.extract_text()
 
-                        if not case_sensitive:
-                            if keyword.lower() in text.lower():
-                                pages_found.append(page_num + 1)
-                        else:
-                            if keyword in text:
-                                pages_found.append(page_num + 1)
+                            if not case_sensitive:
+                                if keyword.lower() in text.lower():
+                                    pages_found.append(page_num + 1)
+                            else:
+                                if keyword in text:
+                                    pages_found.append(page_num + 1)
 
-                    if pages_found:
-                        results.append((filename, file_path, ', '.join(map(str, pages_found))))
+                        if pages_found:
+                            results.append((filename, file_path, ', '.join(map(str, pages_found))))
+
+                except PyPDF2.errors.PdfReadError as e:
+                    print(f"Skipped unreadable PDF: {file_path} due to error: {e}")
+                except Exception as e:
+                    print(f"An unexpected error occurred with file {file_path}: {e}")
 
                 current_file += 1
                 update_progress_bar(current_file, total_files)
