@@ -1,5 +1,6 @@
 import os
 import json
+import csv
 import PyPDF2
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -59,8 +60,7 @@ def apply_theme(theme):
     
     # Treeview styling
     style.configure('Treeview', background=tree_bg_color, foreground=fg_color, fieldbackground=tree_bg_color)
-    style.configure('Treeview.Heading', background=bg_color,fieldbackground=bg_color, foreground=fg_color)
-    #style.map("Treeview.Heading",background=[('active', '#555555'), ('!active', '#333333')])
+    style.configure('Treeview.Heading', background=bg_color, fieldbackground=bg_color, foreground=fg_color)
     
     # Configure Treeview row colors
     tree.tag_configure('evenrow', background=row_bg_even)
@@ -127,7 +127,21 @@ def browse_directory():
     folder_selected = filedialog.askdirectory()
     folder_path.set(folder_selected)
 
+def save_results_as_csv(results, filename, query):
+    """Save the search results to a CSV file, including the search query."""
+    try:
+        with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerow(["Search Query", query])  # Write the search query
+            csvwriter.writerow(["File Name", "File Path", "Pages Found"])  # Header row
+            for result in results:
+                csvwriter.writerow(result)
+        messagebox.showinfo("Success", f"Results saved to {filename}")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to save results: {e}")
+
 def search():
+    global results  # Declare results as global to access in save_results
     directory = folder_path.get()
     keyword = keyword_entry.get()
     case_sensitive = case_sensitive_var.get()
@@ -151,8 +165,30 @@ def search():
     if results:
         for filename, file_path, pages in results:
             tree.insert("", "end", values=(filename, file_path, pages))
+        
+        # Update progress bar to full
+        progress_var.set(100)
+        progress_bar.update()
+
+        # Enable the Save Results button
+        save_button.config(state=tk.NORMAL)
+
     else:
         messagebox.showinfo("Results", "Keyword not found in any PDF files.")
+        progress_var.set(100)
+        progress_bar.update()
+
+def save_results():
+    keyword = keyword_entry.get()
+    if not keyword:
+        messagebox.showerror("Error", "No search query found. Perform a search first.")
+        return
+
+    file_path = filedialog.asksaveasfilename(defaultextension=".csv",
+                                           filetypes=[("CSV files", "*.csv")],
+                                           initialfile=f"search_results_{keyword}.csv")
+    if file_path:
+        save_results_as_csv(results, file_path, keyword)
 
 def copy_path():
     selected_item = tree.selection()
@@ -167,11 +203,9 @@ root = tk.Tk()
 root.title("PDF Keyword Search")
 
 # Define styles
-
-
 style = ttk.Style(root)
 style.theme_use("clam")
-#style.configure("Treeview.Heading", background="black", foreground="white")
+
 # Create widgets
 tk.Label(root, text="Select PDF Directory:").grid(row=0, column=0, padx=10, pady=10, sticky="w")
 folder_path = tk.StringVar()
@@ -187,6 +221,10 @@ tk.Checkbutton(root, text="Case Sensitive", variable=case_sensitive_var).grid(ro
 
 tk.Button(root, text="Search", command=search).grid(row=2, column=2, padx=10, pady=10, sticky="w")
 tk.Button(root, text="Toggle Dark Theme", command=toggle_theme).grid(row=2, column=0, padx=10, pady=10, sticky="w")
+
+# Save Results button (initially disabled)
+save_button = tk.Button(root, text="Save Results", command=save_results, state=tk.DISABLED)
+save_button.grid(row=2, column=1, padx=10, pady=10, sticky="e")
 
 progress_var = tk.DoubleVar()
 progress_bar = ttk.Progressbar(root, variable=progress_var, maximum=100, length=400)
