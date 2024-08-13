@@ -1,4 +1,3 @@
-Certainly! Here’s an updated version of the README with a section explaining how users can use a precompiled release instead of compiling from source:
 
 ---
 
