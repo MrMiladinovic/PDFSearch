@@ -38,7 +38,7 @@ You can download a precompiled release of the application from the [Releases](ht
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/MrMiladinovic/pdf-keyword-search.git
+    git clone https://github.com/MrMiladinovic/PDFSearch.git
     cd pdf-keyword-search
     ```
 
@@ -53,7 +53,7 @@ You can download a precompiled release of the application from the [Releases](ht
 1. **Run the Application**:
     Execute the script to start the GUI application:
     ```bash
-    python pdf_keyword_search.py
+    python PDFSearch.py
     ```
 
 2. **Select Directory**:
