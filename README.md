@@ -5,15 +5,16 @@
 
 ## Overview
 
-`PDF Keyword Search` is a Python application that allows you to search for specific keywords within PDF files located in a selected directory. This application features a graphical user interface (GUI) built with Tkinter and uses the PyPDF2 library to handle PDF files. You can perform case-sensitive or case-insensitive searches and view the results in a table format.
+`PDF Keyword Search` is a Python application that allows you to search for specific keywords within PDF files located in a selected directory. This application features a graphical user interface (GUI) built with Tkinter and uses the PyPDF2 library to handle PDF files. You can perform case-sensitive or case-insensitive searches and view the results in a table format. Additionally, you can save the search results to a CSV file for further analysis.
 
 ## Features
 
 - **Directory Selection**: Choose the directory containing the PDF files to search through.
 - **Keyword Search**: Input a keyword to search for within the selected PDF files.
 - **Case Sensitivity**: Toggle case sensitivity for the keyword search.
-- **Progress Tracking**: View the progress of the search operation.
+- **Progress Tracking**: View the progress of the search operation with a progress bar.
 - **Results Display**: See the filenames, file paths, and pages where the keyword was found.
+- **Save Results**: Save the search results to a CSV file with the search query included in the filename.
 - **Context Menu**: Right-click to copy the file path of the search results.
 
 ## Requirements
@@ -21,6 +22,7 @@
 - Python 3.x
 - PyPDF2
 - Tkinter (usually included with Python standard library)
+- CSV module (usually included with Python standard library)
 
 ## Installation
 
@@ -66,12 +68,15 @@ You can download a precompiled release of the application from the [Releases](ht
     Check or uncheck the "Case Sensitive" box based on your search needs.
 
 5. **Start Search**:
-    Click the "Search" button to begin the search operation. The progress bar will indicate the search status.
+    Click the "Search" button to begin the search operation.
 
 6. **View Results**:
     Results will be displayed in the table with columns for File Name, File Path, and Pages Found.
 
-7. **Copy File Path**:
+7. **Save Results**:
+    Click the "Save Results" button to save the search results to a CSV file. The file will be named with the prefix `search_results_` followed by the search query.
+
+8. **Copy File Path**:
     Right-click on any result row to copy the file path to the clipboard.
 
 ## Contributing
@@ -81,7 +86,6 @@ Contributions are welcome! If you have suggestions, improvements, or fixes, plea
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 
 ## Acknowledgments
 
