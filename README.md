@@ -5,13 +5,14 @@
 
 ## Overview
 
-`PDF Keyword Search` is a Python application that allows you to search for specific keywords within PDF files located in a selected directory. This application features a graphical user interface (GUI) built with Tkinter and uses the PyPDF2 library to handle PDF files. You can perform case-sensitive or case-insensitive searches and view the results in a table format. Additionally, you can save the search results to a CSV file for further analysis.
+`PDF Keyword Search` is a Python application that allows you to search for specific keywords within PDF files located in a selected directory. This application features a graphical user interface (GUI) built with Tkinter and uses the PyPDF2 library to handle PDF files. You can perform case-sensitive or case-insensitive searches and view the results in a table format. Additionally, you can save the search results to a CSV file for further analysis. The application also supports batch searching, allowing you to add multiple keywords for searching.
 
 ## Features
 
 - **Directory Selection**: Choose the directory containing the PDF files to search through.
 - **Keyword Search**: Input a keyword to search for within the selected PDF files.
 - **Case Sensitivity**: Toggle case sensitivity for the keyword search.
+- **Batch Search**: Add multiple keywords to a batch and search for all keywords simultaneously.
 - **Progress Tracking**: View the progress of the search operation with a progress bar.
 - **Results Display**: See the filenames, file paths, and pages where the keyword was found.
 - **Save Results**: Save the search results to a CSV file with the search query included in the filename.
@@ -67,16 +68,19 @@ You can download a precompiled release of the application from the [Releases](ht
 4. **Set Case Sensitivity**:
     Check or uncheck the "Case Sensitive" box based on your search needs.
 
-5. **Start Search**:
-    Click the "Search" button to begin the search operation.
+5. **Add to Batch**:
+    Click the "Add to Batch" button to add the keyword to the batch search list.
 
-6. **View Results**:
+6. **Start Search**:
+    Click the "Search" button to begin the search operation. If you have added keywords to the batch, the search will be performed for all keywords.
+
+7. **View Results**:
     Results will be displayed in the table with columns for File Name, File Path, and Pages Found.
 
-7. **Save Results**:
+8. **Save Results**:
     Click the "Save Results" button to save the search results to a CSV file. The file will be named with the prefix `search_results_` followed by the search query.
 
-8. **Copy File Path**:
+9. **Copy File Path**:
     Right-click on any result row to copy the file path to the clipboard.
 
 ## Contributing
@@ -93,3 +97,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Tkinter**: For building the GUI components.
 
 ---
+
