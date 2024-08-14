@@ -278,6 +278,14 @@ def copy_path():
         root.clipboard_clear()
         root.clipboard_append(file_path)
         root.update()  # Keep the clipboard updated
+def open_file():
+    selected_item = tree.selection()
+    if selected_item:
+        file_path = tree.item(selected_item[0], "values")[2]
+        root.clipboard_clear()
+        root.clipboard_append(file_path)
+        root.update()  # Keep the clipboard updated
+        os.startfile(file_path)
 
 # Initialize the Tk root window
 root = tk.Tk()
@@ -375,6 +383,7 @@ apply_theme(current_theme)
 # Add context menu for copying file path
 context_menu = tk.Menu(root, tearoff=0)
 context_menu.add_command(label="Copy Path", command=copy_path)
+context_menu.add_command(label="Open File", command=open_file)
 
 def show_context_menu(event):
     context_menu.post(event.x_root, event.y_root)
