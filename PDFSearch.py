@@ -49,14 +49,19 @@ def apply_theme(theme):
     
     # Apply theme to tk widgets
     for widget in root.winfo_children():
-        if isinstance(widget, (tk.Label, tk.Entry, tk.Button, tk.Checkbutton)):
+        if isinstance(widget, (tk.Label, tk.Entry, tk.Button)):
             widget.configure(bg=bg_color, fg=fg_color)
+            
+        elif isinstance(widget, tk.Checkbutton):
+            widget.configure(bg=bg_color, fg=fg_color, selectcolor=bg_color)
+        
+            
         elif isinstance(widget, tk.Frame):
             widget.configure(bg=bg_color)
     
     # Apply theme to ttk widgets
     style.configure('TButton', background=bg_color, foreground=fg_color)
-    style.configure('TCheckbutton', background=bg_color, foreground=fg_color)
+    #style.configure('TCheckbutton', bg=bg_color, fg=bg_color)
     
     # Treeview styling
     style.configure('Treeview', background=tree_bg_color, foreground=fg_color, fieldbackground=tree_bg_color)
