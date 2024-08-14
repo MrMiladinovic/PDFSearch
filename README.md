@@ -16,7 +16,7 @@
 - **Progress Tracking**: View the progress of the search operation with a progress bar.
 - **Results Display**: See the filenames, file paths, and pages where the keyword was found.
 - **Save Results**: Save the search results to a CSV file with the search query included in the filename.
-- **Context Menu**: Right-click to copy the file path of the search results.
+- **Context Menu**: Right-click to copy the file path of the search results Or open file with Default PDF viewer.
 
 ## Requirements
 
