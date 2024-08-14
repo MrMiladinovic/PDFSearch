@@ -280,6 +280,7 @@ def copy_path():
         root.clipboard_clear()
         root.clipboard_append(file_path)
         root.update()  # Keep the clipboard updated
+
 def open_file():
     selected_item = tree.selection()
     if selected_item:
@@ -288,6 +289,13 @@ def open_file():
         root.clipboard_append(file_path)
         root.update()  # Keep the clipboard updated 
         os.startfile(file_path)
+
+def on_double_click(event):
+    open_file()
+
+def list_double_click(event):
+    remove_selected_query()
+
 
 # Initialize the Tk root window
 root = tk.Tk()
@@ -345,6 +353,7 @@ clear_batch_button.grid(row=0, column=3, padx=5, pady=5)
 
 batch_list = tk.Listbox(batch_controls_frame, width=60, height=5)
 batch_list.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+batch_list.bind("<Double-Button-1>", list_double_click)
 
 # Results
 tree = ttk.Treeview(root, columns=("Query", "File Name", "File Path", "Pages Found"), show="headings", selectmode="browse")
@@ -391,6 +400,7 @@ def show_context_menu(event):
     context_menu.post(event.x_root, event.y_root)
 
 tree.bind("<Button-3>", show_context_menu)
+tree.bind("<Double-Button-1>", on_double_click)
 root.mainloop()
 
 
