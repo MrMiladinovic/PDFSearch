@@ -46,7 +46,7 @@ def apply_theme(theme):
     
     def apply_theme_to_widget(widget):
         """Apply theme to a single widget."""
-        if isinstance(widget, (tk.Label, tk.Entry, tk.Button)):
+        if isinstance(widget, (tk.Label, tk.Entry, tk.Button,tk.Listbox)):
             widget.configure(bg=bg_color, fg=fg_color)
         elif isinstance(widget, tk.Checkbutton):
             widget.configure(bg=bg_color, fg=fg_color, selectcolor=bg_color)
