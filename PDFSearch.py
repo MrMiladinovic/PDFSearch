@@ -284,7 +284,7 @@ def open_file():
         file_path = tree.item(selected_item[0], "values")[2]
         root.clipboard_clear()
         root.clipboard_append(file_path)
-        root.update()  # Keep the clipboard updated
+        root.update()  # Keep the clipboard updated 
         os.startfile(file_path)
 
 # Initialize the Tk root window
