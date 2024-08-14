@@ -219,6 +219,8 @@ def batch_search():
         progress_var.set(100)
         progress_bar.update()
         status_label.config(text="Batch search complete.", fg="green")
+                # Enable the Save Results button
+        save_button.config(state=tk.NORMAL)
     else:
         status_label.config(text="No results found in batch search.", fg="red")
         progress_var.set(100)
