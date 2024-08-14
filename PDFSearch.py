@@ -271,6 +271,13 @@ def clear_batch_query():
     batch_queries.clear()
     update_batch_list()
 
+def copy_path():
+    selected_item = tree.selection()
+    if selected_item:
+        file_path = tree.item(selected_item[0], "values")[2]
+        root.clipboard_clear()
+        root.clipboard_append(file_path)
+        root.update()  # Keep the clipboard updated
 
 # Initialize the Tk root window
 root = tk.Tk()
@@ -365,6 +372,14 @@ root.rowconfigure(8, weight=0)  # Ensure the last row has no extra space
 current_theme = load_theme()
 apply_theme(current_theme)
 
+# Add context menu for copying file path
+context_menu = tk.Menu(root, tearoff=0)
+context_menu.add_command(label="Copy Path", command=copy_path)
+
+def show_context_menu(event):
+    context_menu.post(event.x_root, event.y_root)
+
+tree.bind("<Button-3>", show_context_menu)
 root.mainloop()
 
 
