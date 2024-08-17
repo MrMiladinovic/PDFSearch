@@ -3,3 +3,4 @@ dist/*
 Output/*
 *.spec
 *.iss
+theme.json
